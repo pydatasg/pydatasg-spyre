@@ -1,0 +1,37 @@
+diff -Naur spyre.default/server.py spyre/server.py
+--- spyre.default/server.py	2015-01-10 10:51:49.000000000 +0800
++++ spyre/server.py	2015-01-10 10:52:03.000000000 +0800
+@@ -7,7 +7,7 @@
+ import numpy as np
+ 
+ import model
+-import View
++import view
+ import spyre
+ 
+ import cherrypy
+@@ -59,13 +59,13 @@
+ 		self.templateVars['custom_js'] = custom_js
+ 		self.templateVars['custom_css'] = custom_css
+ 
+-		v = View.View()
++		v = view.View()
+ 		self.templateVars['js'] = v.getJS()
+ 		self.templateVars['css'] = v.getCSS()
+ 
+ 	@cherrypy.expose
+ 	def index(self):
+-		v = View.View()
++		v = view.View()
+ 		template = jinja2.Template(v.getHTML())
+ 		return template.render( self.templateVars )
+ 
+@@ -135,7 +135,7 @@
+ 
+ 	@cherrypy.expose
+ 	def spinning_wheel(self, **args):
+-		v = View.View()
++		v = view.View()
+ 		buffer = v.getSpinningWheel()
+ 		cherrypy.response.headers['Content-Type'] = 'image/gif'
+ 		return buffer.getvalue()
