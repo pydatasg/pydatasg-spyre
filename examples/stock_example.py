@@ -1,6 +1,7 @@
 from spyre import server
 import pandas as pd
 from pandas.io.data import DataReader
+import matplotlib.pyplot as plt
 import numpy as np
 
 class StockExample(server.App):
@@ -30,11 +31,12 @@ class StockExample(server.App):
 
     def getPlot(self, params):
         df = self.getData(params)
-        plt_obj = df['Adj Close'].plot(label = params['ticker'])
-        plt_obj = df['mavg'].plot(label = 'mavg')
-        plt_obj.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
-        fig = plt_obj.get_figure()
-        return fig
+        plt.subplot(2, 1, 1)
+        plt.gca().axes.get_xaxis().set_visible(False)
+        plt_obj = df.plot(y=['Adj Close', 'mavg'])
+        plt.subplot(2, 1, 2)
+        plt_obj = df.plot(y=['Volume'])
+        return plt_obj.get_figure()
 
 app = StockExample()
 app.launch()
